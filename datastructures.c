@@ -21,44 +21,53 @@ int makeExampleFile(char **buffer, int *bufferLen) {
 	baseOffset = sizeof(DobHeaderFile) + (sectionCount * sizeof(DobSectionFile));
 
 	/* Section 0x1 */
-	char* dobSection1data = "AAAAAAAAAAAAAAAA";
+	SectionType1 secType1 = {
+		0x1,
+		"AAAAAAAAAAAAAAAAAAAAA"
+	};
 	DobSectionFile dobSection1 = {
 		0x1,
 		baseOffset,
-		strlen(dobSection1data)
+		sizeof(secType1)
 	};
 	memcpy(p, &dobSection1, sizeof(DobSectionFile));
 	p += sizeof(DobSectionFile);
-	baseOffset += strlen(dobSection1data);
+	baseOffset += sizeof(secType1);
 
 	/* Section 0x2 */
-	char* dobSection2data = "BBBBBBBBBBBBBBBBB";
+	SectionType2 secType2 = {
+		0x2,
+		"BBBBBBBBBBBBBB"
+	};
 	DobSectionFile dobSection2 = {
 		0x2,
 		baseOffset,
-		strlen(dobSection2data)
+		sizeof(secType2)
 	};
 	memcpy(p, &dobSection2, sizeof(DobSectionFile));
 	p += sizeof(DobSectionFile);
-	baseOffset += strlen(dobSection2data);
+	baseOffset += sizeof(secType2);
 
 	/* Section 0x3 */
-	char* dobSection3data = "CCCCCCCCCCCCCCC";
+	SectionType3 secType3 = {
+		0x3,
+		"CCCCCCCCCCCCC"
+	};
 	DobSectionFile dobSection3 = {
 		0x3,
 		baseOffset,
-		strlen(dobSection3data)
+		sizeof(secType2)
 	};
 	memcpy(p, &dobSection3, sizeof(DobSectionFile));
 	p += sizeof(DobSectionFile);
-	baseOffset += strlen(dobSection3data);
+	baseOffset += sizeof(secType3);
 
-	memcpy(p, dobSection1data, strlen(dobSection1data));
-	p += strlen(dobSection1data);
-	memcpy(p, dobSection2data, strlen(dobSection2data));
-	p += strlen(dobSection2data);
-	memcpy(p, dobSection3data, strlen(dobSection3data));
-	p += strlen(dobSection3data);
+	memcpy(p, &secType1, sizeof(secType1));
+	p += sizeof(secType1);
+	memcpy(p, &secType2, sizeof(secType2));
+	p += sizeof(secType2);
+	memcpy(p, &secType3, sizeof(secType3));
+	p += sizeof(secType3);
 
 	*bufferLen = p - *buffer;
 

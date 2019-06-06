@@ -57,10 +57,14 @@ typedef struct _SectionType1 {
 
 typedef struct _SectionType2 {
 	int index;
-	int data;
+	char data[32];
 } SectionType2;
 
 
+typedef struct _SectionType3 {
+	int index;
+	char data[32];
+} SectionType3;
 
 
 

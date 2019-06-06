@@ -26,6 +26,15 @@ fuzzing:
 	cp example.dob $(CORPUSDIR)
 	./libfuzzertarget -detect_leaks=0 -max_len=1024 -artifact_prefix=$(ARTIFACTDIR) -seed=$(SEED) $(CORPUSDIR)
 
+
+honggfuzz: $(DEPS)
+	rm -f *.o libfuzzertarget
+	../honggfuzz/hfuzz_cc/hfuzz-cc $(FUZZFLAGS) $(CFLAGS) -c libfuzzertarget.c 
+	../honggfuzz/hfuzz_cc/hfuzz-cc $(FUZZFLAGS) $(CFLAGS) -c datastructures.c 
+	../honggfuzz/hfuzz_cc/hfuzz-cc $(FUZZFLAGS) $(CFLAGS) -c parser.c 
+	../honggfuzz/hfuzz_cc/hfuzz-cc $(FUZZFLAGS) $(CFLAGS) libfuzzertarget.o datastructures.o parser.o -o honggfuzz 
+
+
 fuzztarget: $(DEPS)
 	rm -f *.o libfuzzertarget
 	clang $(FUZZFLAGS) $(CFLAGS) -c libfuzzertarget.c 
